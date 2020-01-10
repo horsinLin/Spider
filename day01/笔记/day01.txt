@@ -1,0 +1,136 @@
+1.网络爬虫
+  1.定义: 网络蜘蛛 网络机器人,抓取网络数据的程序
+  2.总结: 用Python程序去模仿人去访问网站,模仿的越逼真越好
+  3.目的: 通过有效的大量的数据分析市场走势,公司的决策
+2.企业获取数据的方式
+  1.公司自有
+  2.第三方数据平台购买
+    数据堂  贵阳大数据交易所
+  3.爬虫爬取数据
+    市场上没有或价格太高,利用爬虫程序去爬取
+3.Python做爬虫优势
+  Python : 请求模块,解析模块丰富成熟
+  PHP : 对多线程,异步支持不够好
+  JAVA : 代码笨重,代码量大
+  C/C++ : 虽然效率高,但代码成型太慢
+4.爬虫分类
+  1.通用网络爬虫(搜索引擎引用,需要遵守robots协议)
+    http://www.qq.com/robots.txt
+    1.搜索引擎如何获取一个新网站的URL
+      1.网站主动向搜索引擎提供(百度站长平台)
+      2.和DNS服务商(万网),快速收录新网站
+  2.聚焦网络爬虫
+    自己写的爬虫程序:面向主题爬虫 面向需求爬虫
+5.爬取数据步骤
+  1.确定需要爬取的URL地址
+  2.通过HTTP/HTTPS协议来获取响应的HTML页面
+  3.提取HTML页面里有用的数据
+    1.所需数据,保存
+    2.页面中的其他URL,继续 2 步
+6.Chrome浏览器插件
+  1.插件安装步骤
+    1.右上角 - 更多工具 - 扩展程序
+    2.点开 开发者模式
+    3.把插件 拖拽 到浏览器界面
+  2.插件介绍
+    1.Proxy SwitchOmega : 代理切换插件
+    2.XPath Helper : 网页数据解析插件
+    3.JSON View : 查看json格式的数据(好看)
+7.Fiddler抓包工具
+  1.抓包设置
+    1.设置Fiddler抓包工具
+    2. 设置浏览器代理
+8.Anaconda 和 spyder
+  1.anaconda : 开源的 python 发行版本
+  2.Spyder : 集成的开发环境
+    Spyder 常用快捷键
+      1.注释 / 取消注释 : Ctrl + 1
+      2.保存 : Ctrl + s
+      3.运行程序 : F5
+9.WEB
+  1. HTTP 和 HTTPS
+    1. HTTP : 80
+    2. HTTPS : 443 HTTP 的升级版
+  2. GET 和 POST
+    1. GET : 查询参数会在 url 上显示出来
+    2. POST : 查询参数和提交数据在 form 表单里,不会在URL地址上显示
+    3. URL
+      http://  item.jd.com  /2660002232.html  #detail
+    4.User-Agent
+      记录用户的浏览器,操作系统等,为了让用户获取更好的HTML页面效果
+      Mozilla/5.0 (Windows NT 6.1; Win64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36
+      Mozilla : Firefox(Gecko内核)
+      IE : Trident(自己内核)
+      Linux : KHTML(lkie Gecko)
+      Apple : Webkit(like KHTML)
+      google : Chrome(like webkit)
+10.爬虫请求模块
+  1. urllib.request
+    1. 版本
+      1. python2中: urllib 和 urllib2
+      2. python3中: 把两个合并,urllib.request
+    2.常用方法
+      1.urllib.request.urlopen("url")
+        作用:向网站发起请求并获取响应
+        urlopen() 得到的响应对象response : bytes
+        response.read().decode("utf-8")  bytes -> str
+  2. urllib.request.Request(url,headers={})
+    1.重构 User-Agent, 爬虫和反爬虫斗争第一步
+    2.使用步骤
+      1.构建请求对象request : Request()
+      2.获取响应对象response : urlopen(request)
+      3.利用响应对象response.read().decode("utf-8")
+  3.请求对象request方法
+    1.add_header()
+      作用: 添加 / 修改 headers(User-Agent)
+    2.get_header()
+      作用:获取已有的HTTP报头的值
+  4.响应对象response方法
+    1.read() : 读取服务器响应的内容
+    2.getcode()
+      作用 : 返回 HTTP 的响应码
+        200 : 成功
+        4XX : 服务器页面出错
+        5XX : 服务器出错
+    3.info()
+      作用: 返回服务器响应的报头信息
+  2.urllib.parse
+    1.quote("中文")
+    2.urlencode(字典)
+      url : wd = "马云"
+      d = {"wd": "马云"}
+      d = urllib.parse.urlencode(d)
+      print(d)
+    3.百度贴吧数据抓取
+      要求:
+        1.输入贴吧的名称
+        2.输入抓取的起始页和终止页
+        3.把每一页的内容保存到本地:第1页.html 第2页.html
+      步骤:
+        1.找URL规律(拼接URL)
+          第1页: https://tieba.baidu.com/f?kw=王者荣耀&pn=0
+          第2页: https://tieba.baidu.com/f?kw=王者荣耀&pn=50
+          第3页: https://tieba.baidu.com/f?kw=王者荣耀&pn=100
+          第n页: pn = (n-1) * 50
+        2.获取响应内容
+        3.保存到本地 / 数据库
+11.作业:
+  1.爬取猫眼电影top100榜
+    1.程序运行,直接爬取第1页
+    2.是否继续爬取(y/n):
+      y : 爬取第2页
+      n : 爬取结束,谢谢使用
+    3.把每一页的内容保存到本地 第1页.html ...
+    普通版 && 类
+  2.步骤:
+    1. URL规律
+    2. 获取响应内容
+    3. 写入本地
+  猫眼top100榜地址:
+    第一页: https://maoyan.com/board/4?offset=0
+    第二页: https://maoyan.com/board/4?offset=10
+    第三页: https://maoyan.com/board/4?offset=20
+
+
+
+
