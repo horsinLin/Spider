@@ -1,0 +1,84 @@
+1.正则解析分组(想要抓取什么内容就加 小括号())
+  . 不能匹配 \n, p = re.compile('\d+\w+',re.S)
+2.正则方法
+  p = re.compile('...', re.S)
+  r_list = p.findall(html)
+    结果: [(),(),(),()]
+3.请求方式
+  1.GET
+  2.POST
+  3.Cookie 模拟登录
+4.抓取步骤
+  1.找 URL
+  2.写正则表达式
+  3.定义类,写程序大体框架
+  4.补全代码
+===========================================================
+1.requests模块
+  1.常用方法
+    1.get() : 发起请求,获取响应对象response
+    2.response方法
+      1.response.text : 字符串
+        字符编码 : ISO-8859-1
+        response.encoding = "utf-8"
+      2.response.content : bytes
+      3.response.status_code : 返回响应码
+    3.get() : 查询参数 params
+      1.没有查询参数
+        res = requests.get(url, headers=headers)
+      2.没有查询参数
+        params = {"wd","horsin"}
+        res = requests.get(url, params=params,headers=headers)
+    4.post() : 参数名data
+      1.data={}  data参数为字典,不用转位bytes数据类型
+    5.代理: proxies
+      1.爬虫和反爬虫斗争的第二步
+        获取代理IP的网站
+          1.西刺代理
+          2.快代理
+          3.全网代理
+      2.普通代理: proxies={"协议":"IP地址:端口号"}
+        proxies = {"HTTP":"222.240.184.126:8086"}
+      3.私密代理
+        proxies = {"http": "http://309435365:szayclhp@114.67.228.126:16819"}
+      4.案例:爬取链家地产二手房信息
+        目标:爬取小区名称,总价
+        步骤:
+          1.找 URL
+            第一页: https://sz.lianjia.com/ershoufang/pg1/
+            第二页: https://sz.lianjia.com/ershoufang/pg2/
+            第三页: https://sz.lianjia.com/ershoufang/pg3/
+          2.正则匹配
+            re.compile('<div class="positionInfo">.*?
+            data-el="region">(.*?)</a>.*?<div class="totalPrice">.*?
+            <span>(.*?)</span>',re.S)
+          3.写入本地文件
+    6.Web客户端验证 : auth
+      1.auth = ("用户名","密码")
+      2.爬取 http://code.tarena.com.cn
+        正则: p = re.compile('<a href="\w+/">(.*?)</a>',re.S)
+    7.SSL证书认证: verify
+      1.verify=True : 默认,做SSL证书认证
+      2.verify=False : 忽略证书认证
+2.Handler处理器(urllib.request)
+  1.定义
+    自定义的urlopen()方法,urlopen方法是一个特殊的opener
+  2.常用方法
+    1.build_opener(Handler处理器对象)
+    2.opener.open(url)
+  3.使用流程
+    1.创建相关的Handler处理器对象
+      http_handler = urllib.request.HTTPHandler()
+    2.创建自定义opener对象
+      opener = urllib.request.build_opener(http_handler)
+    3.利用opener对象的open方法发请求
+  4.Handler处理器分类
+    1.HTTPHandler()
+    2.ProxyHandler(代理IP) : 普通代理
+    3.ProxyBasicAuthHandler(密码管理器对象) : 私密代理
+
+作业:
+  把猫眼电影top100榜单存放到 Mysql数据库和MongoDB数据库中
+
+
+
